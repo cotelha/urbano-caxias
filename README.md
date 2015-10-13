@@ -1,4 +1,4 @@
----- APP para Consulta horários das Linhas de Ônibus Urbano de Caxias do Sul/ RS ----
+---- APP para Consultar horários das Linhas de Ônibus Urbano de Caxias do Sul/ RS ----
 
 ## Instalação
 AngularJS, Ionic e Cordova
