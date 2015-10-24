@@ -2,6 +2,25 @@ var FPApp = angular.module("FPApp", ["ionic"]);
 
 FPApp.service("FPSvc2", ["$http", "$rootScope", "$ionicLoading", "$filter", FPSvc2]);
 
+FPApp.filter ('searchFor', function () {
+  // Filtra as Linhas
+  return function (arr, searchString) {
+    if (!searchString) {
+      return arr;
+    }
+    var result = [];
+    searchString = searchString.toLowerCase();
+
+    // Usando o útil método forEach para iterar através do array
+    angular.forEach (arr, function (item) {
+      if (item.descricao.toLowerCase().indexOf(searchString) !== -1) {
+        result.push(item);
+      }
+    });
+    return result;
+  };
+});
+
 FPApp.service('sharedProperties', function () {
     var params = '';
 
@@ -54,6 +73,9 @@ function FPCtrl($scope, $sce, $ionicLoading, $ionicListDelegate, $ionicPlatform,
 
     $ionicLoading.show({template: "Carregando Linhas..."});
     FPSvc2.loadLines();
+    $scope.clearString = function() {
+        $scope.searchString="";
+    }
     $scope.show = function($index) {
       sharedProperties.setParams( $scope.linesList[$index] );
     }

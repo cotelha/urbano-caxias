@@ -1,1 +1,8 @@
 /* Empty. Add your own CSS if you like */
+
+.button.button-icon.input-button {
+  position: absolute;
+  top: 1px;
+  right: 10px;
+  color: #bbb;
+}
