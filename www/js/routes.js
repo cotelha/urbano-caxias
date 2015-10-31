@@ -3,16 +3,16 @@ angular.module("FPApp.routes", [])
 .config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider
-    .state('page1', {
-      url: '/1',
-      templateUrl: 'page1.html'
+    .state('list', {
+      url: '/list',
+      templateUrl: 'templates/list.html'
     })
-    .state('page2', {
-      url: '/2',
-      templateUrl: 'page2.html'
+    .state('show', {
+      url: '/show',
+      templateUrl: 'templates/show.html'
     })
 
-  $urlRouterProvider.otherwise("/1");
+  $urlRouterProvider.otherwise("/list");
 })
 
 ;

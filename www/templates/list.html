@@ -1,0 +1,19 @@
+<!-- Title-->
+<ion-view title="Visatão" hide-back-button="true">
+  <!-- Controller -->
+  <ion-content class="padding" ng-controller="FPCtrl">
+
+    <label class="item item-input">
+      <i class="icon ion-search placeholder-icon"></i>
+      <input type="search" ng-model="searchString" placeholder="Digite seu termo de pesquisa">
+      <button ng-if="searchString.length" class="input-button button button-icon ion-android-close" ng-click="clearString()"></button>
+    </label>
+
+    <!-- Lista dos horários -->
+    <ion-list>
+      <ion-item ng-repeat="(key, item) in linesList | filter:searchString" ng-click="show(key)" ui-sref="show">
+          <h2 ng-bind-html="item.descricao"></h2>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
