@@ -1,17 +1,27 @@
 angular.module("FPApp.controllers", [])
 
-.controller("FPCtrl", [
-                 "$scope", "$sce", "$ionicLoading", "$ionicListDelegate", "$ionicPlatform", "sharedProperties", "FPSvc2",
-  function FPCtrl($scope,   $sce,   $ionicLoading,   $ionicListDelegate,   $ionicPlatform,   sharedProperties,   FPSvc2) {
+.controller("IndexCtrl", [
+          "$ionicLoading", "$state",
+  function($ionicLoading,   $state) {
+        $ionicLoading.show({template: "Carregando Linhas..."});
+        $state.go('list');
+  }
+])
 
-      $ionicLoading.show({template: "Carregando Linhas..."});
-      FPSvc2.loadLines();
+.controller("ListCtrl", [
+          "$scope", "$sce", "$ionicLoading", "$ionicListDelegate", "$ionicPlatform", "sharedProperties", "FPSvc2", "linesList",
+  function($scope,   $sce,   $ionicLoading,   $ionicListDelegate,   $ionicPlatform,   sharedProperties,   FPSvc2,   linesList) {
+
+      $ionicLoading.hide();
+      // FPSvc2.loadLines();
+      $scope.linesList = linesList["data"];
+
       $scope.clearString = function() {
           $scope.searchString="";
       }
-      $scope.show = function($index) {
-        sharedProperties.setParams( $scope.linesList[$index] );
-      }
+      // $scope.show = function($index) {
+      //   sharedProperties.setParams( $scope.linesList[$index] );
+      // }
       $scope.share = function($index) {
           $ionicListDelegate.closeOptionButtons();
           window.socialmessage.send({
@@ -23,18 +33,30 @@ angular.module("FPApp.controllers", [])
 ])
 
 
-.controller("FPCtrl2", [
-                  "$scope", "$sce", "$ionicLoading", "$ionicListDelegate", "$ionicPlatform", "sharedProperties", "$filter", "FPSvc2",
-  function FPCtrl2($scope,   $sce,   $ionicLoading,   $ionicListDelegate,   $ionicPlatform,   sharedProperties,   $filter,   FPSvc2) {
-      var object_linha = sharedProperties.getParams();
-      $scope.nome_linha = object_linha.descricao;
-      var periodForWeek = FPSvc2.searchPeriodForWeek();
-      var periodForDays = FPSvc2.searchPeriodForDays();
+.controller("ShowCtrl", [
+          "$scope", "$state", "$sce", "$ionicPopup", "$ionicListDelegate", "$ionicPlatform", "$filter", "FPSvc2", "line", "horariosList",
+  function($scope,   $state,   $sce,   $ionicPopup,   $ionicListDelegate,   $ionicPlatform,   $filter,   FPSvc2,   line,   horariosList) {
+      $scope.line = line;
+      $scope.horariosList = horariosList["data"];
 
-      $scope.nome_tabela = $filter('filter')(typesDaysList, {value: periodForWeek })[0].text;
-      $scope.nome_horario = $filter('filter')(SchedulesForDaysList, {value: periodForDays })[0].text;
+      $scope.showAlert = function() {
+        var alertPopup = $ionicPopup.alert({
+          title: 'Nenhum horário encontrado',
+          template: 'Não foi encontrado horários para esta linha hoje.',
+        });
 
-      var lista = FPSvc2.loadHorarios(object_linha, periodForDays, periodForWeek);
+        alertPopup.then(function(res) {
+          $state.go('list')
+        });
+
+      };
+
+      if ($scope.horariosList == false) {
+        $scope.showAlert();
+      }
+
+      $scope.nome_tabela = $filter('filter')(typesDaysList, {value: FPSvc2.searchPeriodForWeek() })[0].text;
+      $scope.nome_horario = $filter('filter')(SchedulesForDaysList, {value: FPSvc2.searchPeriodForDays() })[0].text;
   }
 
 ])

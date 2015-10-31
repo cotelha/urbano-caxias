@@ -1,27 +1,31 @@
 angular.module("FPApp.services", [])
 
 .service("FPSvc2", [
-                 "$http", "$rootScope", "$ionicLoading", "$filter",
-  function FPSvc2($http,   $rootScope,   $ionicLoading,   $filter) {
+                 "$http", "$rootScope", "$ionicLoading", "$filter", "$q",
+  function FPSvc2($http,   $rootScope,   $ionicLoading,   $filter,   $q) {
 
       this.loadLines = function() {
-          $http.get("http://www.gerenciamentorgcom.com.br/m/ws/linhas_web.php", {
-                  params: {user: "37"}})
-              .success(function(result) {
-                  // "id":"29","descricao":"ADORADO\/IRACEMA\/SANTO ANT\u00d4NIO\/JD. DA COLINA"
-                  $rootScope.linesList = result;
-                  $ionicLoading.hide();
-              });
+
+        return $http.get("http://www.gerenciamentorgcom.com.br/m/ws/linhas_web.php", {
+                  params: {user: "37"}});
       }
 
-      this.loadHorarios = function(params, params_horario, params_tabela) {
-          var cod_linha = params.id;
-          $http.get("http://www.gerenciamentorgcom.com.br/m/ws/horarios_web.php", {
-                  params: {linha: cod_linha, tabela: params_tabela, horario: params_horario, user: 37 }})
-              .success(function(result) {
-                  // {"destino":"SAI STA HELENA\/AV.FRAN\u00c7A\/LA PALOMA\/DANTE","itinerario":"17033","hora":"05:25:00","nlinha":"BELA VISTA","elevador":"*"}
-                  $rootScope.horariosList = result;
-              });
+      this.getLine = function(id) {
+        // cria um promise que será retornado assim que
+        // o promise anterior retornar
+        var deferred = $q.defer();
+        this.loadLines()
+          .success(function(data) {
+            // data é a lista de linhas
+            deferred.resolve(data.findById(id))
+          })
+          .error(deferred.reject);
+        return deferred.promise;
+      }
+
+      this.loadHorarios = function(cod_linha, params_horario, params_tabela) {
+          return $http.get("http://www.gerenciamentorgcom.com.br/m/ws/horarios_web.php", {
+                  params: {linha: cod_linha, tabela: params_tabela, horario: params_horario, user: 37 }});
       }
 
       this.searchPeriodForDays = function () {

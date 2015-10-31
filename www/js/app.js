@@ -25,3 +25,33 @@ angular.module("FPApp", [
 
 
 ;
+
+// Add array.where implementation
+Array.prototype.where = Array.prototype.where || function(predicate) {
+  var results = [],
+      len = this.length,
+      i = 0;
+
+  for (; i < len; i++) {
+    var item = this[i];
+    if (predicate(item)) {
+      results.push(item);
+    }
+  }
+
+  return results;
+};
+
+Array.prototype.findBy = function(key, elem) {
+  if (elem["" + key] !== undefined) elem = elem["" + key];
+  return this.where(function(element){ return element["" + key] == elem; })[0];
+}
+
+Array.prototype.findById = function(elem) {
+  return this.findBy("id", elem);
+}
+
+Array.prototype.indexOfById = function(elem) {
+  if (elem.id !== undefined) elem = elem.id;
+  return this.map(function(el) { return el.id }).indexOf(elem);
+}
