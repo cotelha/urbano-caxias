@@ -13,20 +13,11 @@ angular.module("FPApp.controllers", [])
   function($scope,   $sce,   $ionicLoading,   $ionicListDelegate,   $ionicPlatform,   sharedProperties,   FPSvc2,   linesList) {
 
       $ionicLoading.hide();
-      // FPSvc2.loadLines();
+
       $scope.linesList = linesList["data"];
 
       $scope.clearString = function() {
           $scope.searchString="";
-      }
-      // $scope.show = function($index) {
-      //   sharedProperties.setParams( $scope.linesList[$index] );
-      // }
-      $scope.share = function($index) {
-          $ionicListDelegate.closeOptionButtons();
-          window.socialmessage.send({
-              url: $scope.blogs[$index].URL
-          });
       }
   }
 

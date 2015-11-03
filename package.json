@@ -1,7 +1,7 @@
 {
   "name": "fp",
   "version": "1.0.0",
-  "description": "fp: An Ionic project",
+  "description": "visatao: An Ionic project",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^1.3.3",

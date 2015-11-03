@@ -52,8 +52,7 @@ angular.module("FPApp.services", [])
       this.searchPeriodForWeek = function () {
         var current_date = new Date();
         // BUSCA FERIADO;
-        searchFeriado = $filter('filter')(holidayList, {data: current_date.getDate()+"/"+(current_date.getMonth()+1) }, true);
-        console.log(Object.keys(searchFeriado).length);
+        searchFeriado = $filter('filter')(holidayList, {data: current_date.getDate()+"/"+(current_date.getMonth()+1) });
         if (Object.keys(searchFeriado).length!=0) {
           return 6;
         }
