@@ -1,0 +1,29 @@
+<!-- The title of the ion-view will be shown on the navbar -->
+<ion-view title="Horários">
+  <ion-content class="padding">
+    LINHA: {{ line.descricao }}
+    <br/>
+    HORARIO: {{nome_horario}}
+    <br/>
+    TABELA: {{nome_tabela}}
+    <!-- CABEÇALHO TABELA-->
+    <div class="row">
+      <div class="col col-70">Itinerário</div>
+      <div class="col col-20">Horário</div>
+      <div class="col col-10">
+        <i class="fa fa-wheelchair"></i>
+      </div>
+    </div>
+    <!-- LISTA HORARIOS -->
+    <ion-list>
+      <div class="row" ng-repeat="item in horariosList">
+        <div class="col col-70 item item-text-wrap">{{item.destino}}</div>
+        <div class="col col-20 item">{{item.hora  | limitTo: 5 }}</div>
+        <div class="col col-10 item">
+          <i class="fa fa-wheelchair" ng-show="item.elevador == '*'"></i>
+          <i class="fa fa-minus" ng-show="item.elevador != '*'"></i>
+        </div>
+      </div>
+    </ion-list>
+  </ion-content>
+</ion-view>
