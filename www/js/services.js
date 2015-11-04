@@ -28,6 +28,11 @@ angular.module("FPApp.services", [])
                   params: {linha: cod_linha, tabela: params_tabela, horario: params_horario, user: 37 }});
       }
 
+      this.loadStations = function(itinerary) {
+        return $http.get("http://www.gerenciamentorgcom.com.br/m/ws/trajetos_web.php", {
+                  params: {itinerario: itinerary, user: 37 }});
+      }
+
       this.searchPeriodForDays = function () {
         return 0;
         var today = new Date().getHours();
