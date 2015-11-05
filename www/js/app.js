@@ -1,6 +1,7 @@
 
 angular.module("FPApp", [
   "ionic",
+  "ngCordova",
 
   "FPApp.services",
 

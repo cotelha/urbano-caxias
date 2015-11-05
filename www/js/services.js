@@ -5,7 +5,6 @@ angular.module("FPApp.services", [])
   function FPSvc2($http,   $rootScope,   $ionicLoading,   $filter,   $q) {
 
       this.loadLines = function() {
-
         return $http.get("http://www.gerenciamentorgcom.com.br/m/ws/linhas_web.php", {
                   params: {user: "37"}});
       }
@@ -23,9 +22,22 @@ angular.module("FPApp.services", [])
         return deferred.promise;
       }
 
-      this.loadHorarios = function(cod_linha, params_horario, params_tabela) {
+      this.loadItineraries = function(id_line, params_horario, params_tabela) {
           return $http.get("http://www.gerenciamentorgcom.com.br/m/ws/horarios_web.php", {
-                  params: {linha: cod_linha, tabela: params_tabela, horario: params_horario, user: 37 }});
+                  params: {linha: id_line, tabela: params_tabela, horario: params_horario, user: 37 }});
+      }
+
+      this.getItinerary = function(id_line, params_horario, params_tabela, id_itinerary) {
+        // cria um promise que será retornado assim que
+        // o promise anterior retornar
+        var deferred = $q.defer();
+        this.loadItineraries(id_line, params_horario, params_tabela)
+          .success(function(data) {
+            // data é a lista de linhas
+            deferred.resolve(data.findBy("itinerario", id_itinerary))
+          })
+          .error(deferred.reject);
+        return deferred.promise;
       }
 
       this.loadStations = function(itinerary) {
