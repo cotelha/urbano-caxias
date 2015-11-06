@@ -53,19 +53,23 @@ angular.module("FPApp.controllers", [])
 ])
 
 .controller("ShowItineraryCtrl", [
-          "$scope", "$stateParams", "$state", "$cordovaGeolocation", "$ionicPopup", "$filter", "FPSvc2", "line", "itinerary", "stations",
-  function($scope,   $stateParams,   $state,   $cordovaGeolocation,   $ionicPopup,   $filter,   FPSvc2,   line,   itinerary,   stations) {
+          "$scope", "$rootScope", "$stateParams", "$state", "$cordovaGeolocation", "$ionicPopup", "$filter", "FPSvc2", "line", "itinerary", "stations",
+  function($scope,   $rootScope,   $stateParams,   $state,   $cordovaGeolocation,   $ionicPopup,   $filter,   FPSvc2,   line,   itinerary,   stations) {
 
     $scope.line = line;
     $scope.itinerary = itinerary;
     $scope.stations = stations["data"];
 
-    console.log($scope.stations);
+    $scope.alert_showed = false;
 
     var div = document.getElementById("map_canvas");
 
+    if ($rootScope.map !== undefined) {
+      $rootScope.map.remove();
+    }
+
     // Invoking Map using Google Map SDK v2 by dubcanada
-    var map = plugin.google.maps.Map.getMap(div,{
+    $rootScope.map = plugin.google.maps.Map.getMap(div,{
         'camera': {
             'latLng': setPosition($scope.stations[0].lat, $scope.stations[0].lng),
             'zoom': 15
@@ -77,43 +81,49 @@ angular.module("FPApp.controllers", [])
     $cordovaGeolocation
       .getCurrentPosition(posOptions)
       .then(function (position) {
-        map.setCenter(setPosition(position.coords.latitude, position.coords.longitude));
+        $rootScope.map.addMarker({
+          'position': position,
+          'icon': {
+           'url': 'http://chart.apis.google.com/chart?chst=d_map_spin&chld=0.5|0|2E8B57|8|b|1'
+          }
+        });
+        $rootScope.map.setCenter(setPosition(position.coords.latitude, position.coords.longitude));
       }, function(err) {
-        console.log('não foi possivel buscar a localização atual');
-        console.log(err);
+        if(!$scope.alert_showed) {
+          alert('Não foi possivel buscar a localização atual');
+          $scope.alert_showed = true;
+        }
       });
 
-    map.addEventListener(plugin.google.maps.event.MAP_READY, function(){
+    $rootScope.map.addEventListener(plugin.google.maps.event.MAP_READY, function(){
 
         // Bind markers
         for (var i = 0; i < $scope.stations.length; i++) {
             var station = $scope.stations[i];
             station.position = setPosition(station.lat, station.lng);
 
-            map.addMarker({
+            $rootScope.map.addMarker({
                 'station': station,
-                'position': station.position
-            }, function(marker) {
-
-                // Defining event for each marker
-                // marker.on("click", function() {
-                //     showAlert(marker.get('marker').ref);
-                // });
-
+                'position': station.position,
+                'icon': {
+                 'url': imgPath('img/largeTDYellowIcons/marker'+(i+1)+'.png')
+                 // 'url' : 'http://chart.apis.google.com/chart?chst=d_map_spin&chld=0.5|0|2E8B57|8|b|'+(i+1)
+                }
             });
         }
     });
 
+    function imgPath(path) {
+      if (window.location.protocol == 'file:') {
+        return window.location.protocol+"//" + window.location.pathname.replace('index.html', path);
+      } else {
+        return window.location.origin + "/" + path;
+      }
+    }
+
     function setPosition(lat, lng) {
         return new plugin.google.maps.LatLng(lat, lng);
     }
-
-    function showAlert(ref) {
-      var alertPopup = $ionicPopup.alert({
-        title: 'Marker',
-        template: ref,
-      });
-    };
 
   }
 ])
