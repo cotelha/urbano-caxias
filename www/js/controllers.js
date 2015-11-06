@@ -64,10 +64,6 @@ angular.module("FPApp.controllers", [])
 
     var div = document.getElementById("map_canvas");
 
-    if ($rootScope.map !== undefined) {
-      $rootScope.map.remove();
-    }
-
     // Invoking Map using Google Map SDK v2 by dubcanada
     $rootScope.map = plugin.google.maps.Map.getMap(div,{
         'camera': {

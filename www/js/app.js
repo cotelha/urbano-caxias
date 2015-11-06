@@ -11,7 +11,7 @@ angular.module("FPApp", [
 ])
 
 
-.run(function($ionicPlatform) {
+.run(function($rootScope, $ionicPlatform, $ionicLoading) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -21,6 +21,19 @@ angular.module("FPApp", [
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
+  });
+
+  $rootScope.$on('$stateChangeStart', function (event, to, toParams, from, fromParams) {
+    $ionicLoading.show({template: "Carregando..."});
+    if ($rootScope.map !== undefined) {
+      $rootScope.map.remove();
+      console.log('map removido !!! ');
+      $rootScope.map = undefined;
+    }
+  });
+
+  $rootScope.$on('$stateChangeSuccess', function(e, curr, prev) {
+    $ionicLoading.hide();
   });
 })
 
