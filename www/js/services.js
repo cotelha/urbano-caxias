@@ -1,12 +1,24 @@
-angular.module("FPApp.services", [])
+angular.module("FPApp.services", ['angular-cache'])
 
 .service("FPSvc2", [
-                 "$http", "$rootScope", "$ionicLoading", "$filter", "$q",
-  function FPSvc2($http,   $rootScope,   $ionicLoading,   $filter,   $q) {
+                 "$http", "$rootScope", "$ionicLoading", "$filter", "$q", "CacheFactory",
+  function FPSvc2($http,   $rootScope,   $ionicLoading,   $filter,   $q,   CacheFactory) {
+
+      if (!CacheFactory.get('linesCache')) {
+        CacheFactory.createCache('linesCache', {
+          storageMode: 'localStorage'
+        });
+        // clear cache with
+        // CacheFactory.destroy('linesCache');
+      }
+
+      var linesCache = CacheFactory.get('linesCache');
 
       this.loadLines = function() {
         return $http.get("http://www.gerenciamentorgcom.com.br/m/ws/linhas_web.php", {
-                  params: {user: "37"}});
+                  params: {user: "37"},
+                  cache: linesCache
+                });
       }
 
       this.getLine = function(id) {
@@ -24,7 +36,9 @@ angular.module("FPApp.services", [])
 
       this.loadItineraries = function(id_line, params_horario, params_tabela) {
           return $http.get("http://www.gerenciamentorgcom.com.br/m/ws/horarios_web.php", {
-                  params: {linha: id_line, tabela: params_tabela, horario: params_horario, user: 37 }});
+                  params: {linha: id_line, tabela: params_tabela, horario: params_horario, user: 37 },
+                  cache: linesCache
+                });
       }
 
       this.getItinerary = function(id_line, params_horario, params_tabela, id_itinerary) {
@@ -42,7 +56,9 @@ angular.module("FPApp.services", [])
 
       this.loadStations = function(itinerary) {
         return $http.get("http://www.gerenciamentorgcom.com.br/m/ws/trajetos_web.php", {
-                  params: {itinerario: itinerary, user: 37 }});
+                  params: {itinerario: itinerary, user: 37 },
+                  cache: linesCache
+                });
       }
 
       this.searchPeriodForDays = function () {

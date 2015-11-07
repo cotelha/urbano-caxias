@@ -2,6 +2,7 @@
 angular.module("FPApp", [
   "ionic",
   "ngCordova",
+  "angular-cache",
 
   "FPApp.services",
 
