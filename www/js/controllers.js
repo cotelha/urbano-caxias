@@ -73,25 +73,24 @@ angular.module("FPApp.controllers", [])
     });
 
 
-    var posOptions = {timeout: 10000, enableHighAccuracy: false};
-    $cordovaGeolocation
-      .getCurrentPosition(posOptions)
-      .then(function (position) {
-        $rootScope.map.addMarker({
-          'position': position,
-          'icon': {
-           'url': 'http://chart.apis.google.com/chart?chst=d_map_spin&chld=0.5|0|2E8B57|8|b|1'
+    $rootScope.map.addEventListener(plugin.google.maps.event.MAP_READY, function(){
+      var posOptions = {timeout: 10000, enableHighAccuracy: false};
+      $cordovaGeolocation
+        .getCurrentPosition(posOptions)
+        .then(function (position) {
+          $rootScope.map.addMarker({
+            'position': setPosition(position.coords.latitude, position.coords.longitude),
+            'title': "Estou aqui!"
+          }, function(marker) {
+            marker.showInfoWindow();
+          });
+          // $rootScope.map.setCenter(setPosition(position.coords.latitude, position.coords.longitude));
+        }, function(err) {
+          if(!$scope.alert_showed) {
+            alert('Não foi possivel buscar a localização atual');
+            $scope.alert_showed = true;
           }
         });
-        $rootScope.map.setCenter(setPosition(position.coords.latitude, position.coords.longitude));
-      }, function(err) {
-        if(!$scope.alert_showed) {
-          alert('Não foi possivel buscar a localização atual');
-          $scope.alert_showed = true;
-        }
-      });
-
-    $rootScope.map.addEventListener(plugin.google.maps.event.MAP_READY, function(){
 
         // Bind markers
         for (var i = 0; i < $scope.stations.length; i++) {
@@ -101,10 +100,16 @@ angular.module("FPApp.controllers", [])
             $rootScope.map.addMarker({
                 'station': station,
                 'position': station.position,
+                'title': 'Parada ' + (i+1),
+                'snippet': station.ref,
                 'icon': {
                  'url': imgPath('img/largeTDYellowIcons/marker'+(i+1)+'.png')
                  // 'url' : 'http://chart.apis.google.com/chart?chst=d_map_spin&chld=0.5|0|2E8B57|8|b|'+(i+1)
                 }
+            }, function(marker) {
+              marker.addEventListener(plugin.google.maps.event.MARKER_CLICK, function() {
+                marker.showInfoWindow();
+              });
             });
         }
     });
