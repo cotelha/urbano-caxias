@@ -25,8 +25,24 @@ angular.module("FPApp.routes", [])
         line: ['FPSvc2', '$stateParams', function(FPSvc2, $stateParams) {
           return FPSvc2.getLine($stateParams.id);
         }],
-        horariosList: ['FPSvc2', '$stateParams', '$filter', function(FPSvc2, $stateParams, $filter) {
-          return FPSvc2.loadHorarios($stateParams.id, FPSvc2.searchPeriodForDays(), FPSvc2.searchPeriodForWeek());
+        itineraries: ['FPSvc2', '$stateParams', '$filter', function(FPSvc2, $stateParams, $filter) {
+          return FPSvc2.loadItineraries($stateParams.id, FPSvc2.searchPeriodForDays(), FPSvc2.searchPeriodForWeek());
+        }]
+      }
+    })
+    .state('show_itinerary', {
+      url: '/show/:id/itinerary/:idItinerary',
+      templateUrl: 'templates/show_itinerary.html',
+      controller: 'ShowItineraryCtrl',
+      resolve: {
+        line: ['FPSvc2', '$stateParams', function(FPSvc2, $stateParams) {
+          return FPSvc2.getLine($stateParams.id);
+        }],
+        itinerary: ['FPSvc2', '$stateParams', '$filter', function(FPSvc2, $stateParams, $filter) {
+          return FPSvc2.getItinerary($stateParams.id, FPSvc2.searchPeriodForDays(), FPSvc2.searchPeriodForWeek(), $stateParams.idItinerary);
+        }],
+        stations: ['FPSvc2', '$stateParams', function(FPSvc2, $stateParams) {
+          return FPSvc2.loadStations($stateParams.idItinerary);
         }]
       }
     })
