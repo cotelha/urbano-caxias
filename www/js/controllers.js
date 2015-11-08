@@ -9,8 +9,8 @@ angular.module("FPApp.controllers", [])
 ])
 
 .controller("ListCtrl", [
-          "$scope", "$sce", "$ionicLoading", "$ionicListDelegate", "$ionicPlatform", "sharedProperties", "FPSvc2", "linesList",
-  function($scope,   $sce,   $ionicLoading,   $ionicListDelegate,   $ionicPlatform,   sharedProperties,   FPSvc2,   linesList) {
+          "$scope", "$sce", "$ionicLoading", "$ionicListDelegate", "$ionicPlatform", "FPSvc2", "linesList",
+  function($scope,   $sce,   $ionicLoading,   $ionicListDelegate,   $ionicPlatform,   FPSvc2,   linesList) {
 
       $ionicLoading.hide();
 
