@@ -114,18 +114,108 @@ angular.module("FPApp.services", ['angular-cache'])
 ])
 
 
-.service('sharedProperties', function () {
-    var params = '';
+.service("DirectionService", [
+                           "$http", "$rootScope", "$ionicLoading", "$filter", "$q", "CacheFactory",
+  function DirectionService($http,   $rootScope,   $ionicLoading,   $filter,   $q,   CacheFactory) {
+    if (!CacheFactory.get('polylineCache')) {
+      CacheFactory.createCache('polylineCache', {
+        storageMode: 'localStorage'
+      });
+      // clear cache with
+      // CacheFactory.destroy('polylineCache');
+    }
 
-    return {
-        getParams: function () {
-            return params;
-        },
-        setParams: function(value) {
-            params = value;
-        }
-    };
-})
+    var polylineCache = CacheFactory.get('polylineCache');
+
+
+    this.get_directions = function(origin, destination, waypoints, control) {
+      var directionsService = new google.maps.DirectionsService();
+      var rsp;
+      var deferred = $q.defer();
+      var request = {
+        origin: origin,
+        destination: destination,
+        waypoints: waypoints,
+        travelMode: google.maps.DirectionsTravelMode["DRIVING"]
+      };
+      var cacheKey = JSON.stringify(request);
+      if (polylineCache.get(cacheKey)) {
+        console.log('get from cache!!')
+        rsp = polylineCache.get(cacheKey);
+        rsp.control = control;
+        deferred.resolve(rsp);
+      } else {
+
+        directionsService.route(request, function (response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+              rsp = response.routes[0];
+              polylineCache.put(cacheKey, rsp);
+              rsp.control = control;
+              deferred.resolve(rsp);
+            } else {
+              deferred.reject;
+            }
+          }
+        );
+      }
+      return deferred.promise;
+    }
+
+    this.decodePolyline = function(encoded) {
+      precision = 5;
+      precision = Math.pow(10, -precision);
+      var len = encoded.length, index=0, lat=0, lng = 0, array = [];
+      while (index < len) {
+          var b, shift = 0, result = 0;
+          do {
+              b = encoded.charCodeAt(index++) - 63;
+              result |= (b & 0x1f) << shift;
+              shift += 5;
+          } while (b >= 0x20);
+          var dlat = ((result & 1) ? ~(result >> 1) : (result >> 1));
+          lat += dlat;
+          shift = 0;
+          result = 0;
+          do {
+              b = encoded.charCodeAt(index++) - 63;
+              result |= (b & 0x1f) << shift;
+              shift += 5;
+          } while (b >= 0x20);
+          var dlng = ((result & 1) ? ~(result >> 1) : (result >> 1));
+          lng += dlng;
+          array.push( new plugin.google.maps.LatLng(lat * precision, lng * precision) );
+      }
+      return array;
+    }
+
+    this.get_polyline_points_by_stations = function(all_stations) {
+      var deferred = $q.defer(),
+          self = this,
+          i,j,chunk = 10
+          polylines = [];
+
+      for (i=0,j=all_stations.length; i<j; i+=chunk) {
+          stations = all_stations.slice(i,i+chunk);
+
+          var origin = stations[0].lat + "," + stations[0].lng;
+          var destination = stations[stations.length-1].lat + "," + stations[stations.length-1].lng;
+          var waypoints = stations.slice(1, -1).map(function(st) { return {location: st.lat + "," + st.lng } });
+          this.get_directions(origin, destination, waypoints, i+chunk)
+            .then(function(response) {
+              polylines = polylines.concat(self.decodePolyline(response.overview_polyline));
+              console.log(polylines);
+              console.log(response.control, all_stations.length);
+              if (response.control >= all_stations.length) {
+                console.log("deferred");
+                deferred.resolve(polylines);
+              }
+            })
+            ;
+      }
+      return deferred.promise;
+    }
+  }
+])
 
 
 ;
