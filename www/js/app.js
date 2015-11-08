@@ -12,7 +12,7 @@ angular.module("FPApp", [
 ])
 
 
-.run(function($rootScope, $ionicPlatform, $ionicLoading) {
+.run(function($rootScope, $interval, $ionicPlatform, $ionicLoading) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -26,9 +26,12 @@ angular.module("FPApp", [
 
   $rootScope.$on('$stateChangeStart', function (event, to, toParams, from, fromParams) {
     $ionicLoading.show({template: "Carregando..."});
-    if ($rootScope.map !== undefined) {
+    if (angular.isDefined($rootScope.bus_interval)) {
+      $interval.cancel($rootScope.bus_interval);
+      $rootScope.bus_interval = undefined;
+    }
+    if (angular.isDefined($rootScope.map)) {
       $rootScope.map.remove();
-      console.log('map removido !!! ');
       $rootScope.map = undefined;
     }
   });

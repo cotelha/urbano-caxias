@@ -53,8 +53,8 @@ angular.module("FPApp.controllers", [])
 ])
 
 .controller("ShowItineraryCtrl", [
-          "$scope", "$rootScope", "$stateParams", "$state", "$cordovaGeolocation", "$ionicPopup", "$filter", "FPSvc2", "line", "itinerary", "stations",
-  function($scope,   $rootScope,   $stateParams,   $state,   $cordovaGeolocation,   $ionicPopup,   $filter,   FPSvc2,   line,   itinerary,   stations) {
+          "$scope", "$rootScope", "$stateParams", "$state", "$interval", "$cordovaGeolocation", "$ionicPopup", "$filter", "FPSvc2", "line", "itinerary", "stations",
+  function($scope,   $rootScope,   $stateParams,   $state,   $interval,   $cordovaGeolocation,   $ionicPopup,   $filter,   FPSvc2,   line,   itinerary,   stations) {
 
     $scope.line = line;
     $scope.itinerary = itinerary;
@@ -84,12 +84,28 @@ angular.module("FPApp.controllers", [])
           }, function(marker) {
             marker.showInfoWindow();
           });
-          // $rootScope.map.setCenter(setPosition(position.coords.latitude, position.coords.longitude));
+          //
         }, function(err) {
           if(!$scope.alert_showed) {
             alert('Não foi possivel buscar a localização atual');
             $scope.alert_showed = true;
           }
+        });
+
+        // Add bus marker to map
+        $rootScope.map.addMarker({
+            'position': setPosition($scope.stations[0].lat, $scope.stations[0].lng),
+            'title': 'Ônibus',
+            'snippet': "Localização aproximada",
+            'icon': {
+             'url': imgPath('img/bus.png')
+            }
+        }, function(marker) {
+          $scope.bus_marker = marker;
+          $scope.bus_marker.setVisible(false);
+          marker.addEventListener(plugin.google.maps.event.MARKER_CLICK, function() {
+            marker.showInfoWindow();
+          });
         });
 
         // Bind markers
@@ -112,7 +128,24 @@ angular.module("FPApp.controllers", [])
               });
             });
         }
+
+        $rootScope.bus_interval = $interval(getBusLocale, 5000);
     });
+
+    function getBusLocale() {
+      FPSvc2.loadBusLocale($scope.itinerary.itinerario)
+        .then(function(res) {
+          var data = res["data"]
+          if (data != false) {
+            data = data[0];
+            $scope.bus_marker.setPosition(setPosition(data.lat, data.lng));
+            setMapPosition(data.lat, data.lng);
+            if (!$scope.bus_marker.isVisible()) $scope.bus_marker.setVisible(true);
+          } else {
+            $scope.bus_marker.setVisible(false);
+          }
+        })
+    }
 
     function imgPath(path) {
       if (window.location.protocol == 'file:') {
@@ -120,6 +153,10 @@ angular.module("FPApp.controllers", [])
       } else {
         return window.location.origin + "/" + path;
       }
+    }
+
+    function setMapPosition(lat, lng) {
+      $rootScope.map.setCenter(setPosition(lat, lng));
     }
 
     function setPosition(lat, lng) {
