@@ -41,14 +41,15 @@ angular.module("FPApp.services", ['angular-cache'])
                 });
       }
 
-      this.getItinerary = function(id_line, params_horario, params_tabela, id_itinerary) {
+      this.getItinerary = function(id_line, params_horario, params_tabela, id_itinerary, hour) {
         // cria um promise que será retornado assim que
         // o promise anterior retornar
         var deferred = $q.defer();
         this.loadItineraries(id_line, params_horario, params_tabela)
           .success(function(data) {
             // data é a lista de linhas
-            deferred.resolve(data.findBy("itinerario", id_itinerary))
+            console.log(hour);
+            deferred.resolve(data.findBy("itinerario", id_itinerary, true).findBy("hora", hour))
           })
           .error(deferred.reject);
         return deferred.promise;

@@ -31,7 +31,7 @@ angular.module("FPApp.routes", [])
       }
     })
     .state('show_itinerary', {
-      url: '/show/:id/itinerary/:idItinerary',
+      url: '/show/:id/itinerary/:idItinerary/:hour',
       templateUrl: 'templates/show_itinerary.html',
       controller: 'ShowItineraryCtrl',
       resolve: {
@@ -39,7 +39,7 @@ angular.module("FPApp.routes", [])
           return FPSvc2.getLine($stateParams.id);
         }],
         itinerary: ['FPSvc2', '$stateParams', '$filter', function(FPSvc2, $stateParams, $filter) {
-          return FPSvc2.getItinerary($stateParams.id, FPSvc2.searchPeriodForDays(), FPSvc2.searchPeriodForWeek(), $stateParams.idItinerary);
+          return FPSvc2.getItinerary($stateParams.id, FPSvc2.searchPeriodForDays(), FPSvc2.searchPeriodForWeek(), $stateParams.idItinerary, $stateParams.hour);
         }],
         stations: ['FPSvc2', '$stateParams', function(FPSvc2, $stateParams) {
           return FPSvc2.loadStations($stateParams.idItinerary);
