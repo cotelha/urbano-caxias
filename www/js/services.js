@@ -12,10 +12,12 @@ angular.module("FPApp.services", ['angular-cache'])
         // CacheFactory.destroy('linesCache');
       }
 
+      this.BASE_URL = "http://www.gerenciamentorgcom.com.br/m/ws/";
+
       var linesCache = CacheFactory.get('linesCache');
 
       this.loadLines = function() {
-        return $http.get("http://www.gerenciamentorgcom.com.br/m/ws/linhas_web.php", {
+        return $http.get(this.BASE_URL + "linhas_web.php", {
                   params: {user: "37"},
                   cache: linesCache
                 });
@@ -34,8 +36,13 @@ angular.module("FPApp.services", ['angular-cache'])
         return deferred.promise;
       }
 
+      this.isCachedLine = function(line, tabela, horario) {
+        cacheKey = this.BASE_URL + "horarios_web.php?horario="+ horario +"&linha=" + line.id + "&tabela=" + tabela + "&user=37";
+        return linesCache.get(cacheKey) !== undefined;
+      }
+
       this.loadItineraries = function(id_line, params_horario, params_tabela) {
-          return $http.get("http://www.gerenciamentorgcom.com.br/m/ws/horarios_web.php", {
+          return $http.get(this.BASE_URL + "horarios_web.php", {
                   params: {linha: id_line, tabela: params_tabela, horario: params_horario, user: 37 },
                   cache: linesCache
                 });
@@ -56,7 +63,7 @@ angular.module("FPApp.services", ['angular-cache'])
       }
 
       this.loadStations = function(itinerary) {
-        return $http.get("http://www.gerenciamentorgcom.com.br/m/ws/trajetos_web.php", {
+        return $http.get(this.BASE_URL + "trajetos_web.php", {
                   params: {itinerario: itinerary, user: 37 },
                   cache: linesCache
                 });
@@ -64,7 +71,7 @@ angular.module("FPApp.services", ['angular-cache'])
 
       this.loadBusLocale = function(itinerary) {
         // [{"dtresposta":"2015-11-07 21:41:43","lat":"-29.166825","lng":"-51.177123"}]
-        return $http.get("http://www.gerenciamentorgcom.com.br/m/ws/bus_web.php", {
+        return $http.get(this.BASE_URL + "bus_web.php", {
                   params: {itinerario: itinerary, user: 37 },
                 });
       }
