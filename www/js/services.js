@@ -61,6 +61,13 @@ angular.module("FPApp.services", ['angular-cache'])
                 });
       }
 
+      this.loadBusLocale = function(itinerary) {
+        // [{"dtresposta":"2015-11-07 21:41:43","lat":"-29.166825","lng":"-51.177123"}]
+        return $http.get("http://www.gerenciamentorgcom.com.br/m/ws/bus_web.php", {
+                  params: {itinerario: itinerary, user: 37 },
+                });
+      }
+
       this.searchPeriodForDays = function () {
         return 0;
         var today = new Date().getHours();
