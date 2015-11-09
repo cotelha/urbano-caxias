@@ -19,6 +19,14 @@ angular.module("FPApp.controllers", [])
       $scope.clearString = function() {
           $scope.searchString="";
       }
+
+      $scope.isCachedLine = function(line) {
+        if (line.cached === undefined) {
+          var cx = FPSvc2.isCachedLine(line, FPSvc2.searchPeriodForWeek(), FPSvc2.searchPeriodForDays());
+          line.cached = cx;
+        }
+        return line.cached;
+      }
   }
 
 ])
