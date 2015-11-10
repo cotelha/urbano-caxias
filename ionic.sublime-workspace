@@ -4,12 +4,24 @@
 		"selected_items":
 		[
 			[
-				"param",
-				"params_horario"
+				"se",
+				"searchString"
 			],
 			[
 				"para",
-				"params_tabela"
+				"params"
+			],
+			[
+				"des",
+				"descricao_linha"
+			],
+			[
+				"ion",
+				"ion-item"
+			],
+			[
+				"param",
+				"params_horario"
 			],
 			[
 				"peri",
@@ -140,10 +152,6 @@
 				"expiration"
 			],
 			[
-				"des",
-				"description"
-			],
-			[
 				"gra",
 				"graphics"
 			]
@@ -152,10 +160,26 @@
 	"buffers":
 	[
 		{
-			"file": "/home/rafael/Downloads/lista-de-processos-13-10-2015 09-55.csv",
+			"file": "www/js/services.js",
 			"settings":
 			{
-				"buffer_size": 166644,
+				"buffer_size": 3756,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "www/index.html",
+			"settings":
+			{
+				"buffer_size": 2926,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "www/templates/show.html",
+			"settings":
+			{
+				"buffer_size": 857,
 				"line_ending": "Unix"
 			}
 		}
@@ -198,18 +222,28 @@
 	},
 	"expanded_folders":
 	[
-		"/home/rafael/fb",
-		"/home/rafael/fb/hooks",
-		"/home/rafael/fb/plugins",
-		"/home/rafael/fb/scss",
-		"/home/rafael/fb/www",
-		"/home/rafael/fb/www/img",
-		"/home/rafael/fb/www/js",
-		"/home/rafael/Downloads/fp",
-		"/home/rafael/Downloads/fp/www"
+		"/home/rafael/visatao",
+		"/home/rafael/visatao/www",
+		"/home/rafael/visatao/www/lib",
+		"/home/rafael/visatao/www/lib/ionic/js",
+		"/home/rafael/visatao/www/templates"
 	],
 	"file_history":
 	[
+		"/home/rafael/Downloads/numanistaramos/gerenciador/web_produto_novo.php",
+		"/home/rafael/Downloads/numanistaramos/gerenciador/inserir_produto.php",
+		"/home/rafael/visatao/www/index.html",
+		"/home/rafael/visatao/platforms/android/assets/www/js/app.js",
+		"/home/rafael/visatao/www/js/controllers.js",
+		"/home/rafael/Downloads/Ochre - Backup - 051015/admin/modules/produtos/controller/controller.php",
+		"/home/rafael/Downloads/Ochre - Backup - 051015/admin/modules/produtos/view/computer/index.php",
+		"/home/rafael/visatao/www/js/services.js",
+		"/home/rafael/visatao/www/js/routes.js",
+		"/home/rafael/visatao/www/js/app.js",
+		"/home/rafael/visatao/package.json",
+		"/home/rafael/visatao/www/templates/list.html",
+		"/home/rafael/visatao/www/css/style.css",
+		"/home/rafael/Downloads/lista-de-processos-13-10-2015 09-55.csv",
 		"/media/rafael/Arquivos/script_visate/get_horarios.rb",
 		"/home/rafael/fb/www/js/app.js",
 		"/home/rafael/fb/www/index.html",
@@ -323,25 +357,11 @@
 		"/home/rafael/residuos/app/assets/javascripts/waste_movements.js",
 		"/home/rafael/residuos/spec/controllers/environmental_licenses_controller_spec.rb",
 		"/home/rafael/residuos/spec/controllers/roles_controller_spec.rb",
-		"/home/rafael/residuos/log/production.log",
-		"/home/rafael/residuos/config/locales/pundit_roles.yml",
-		"/home/rafael/residuos/config/initializers/simple_form.rb",
-		"/home/rafael/residuos/spec/controllers/concerns/index_spec.rb",
-		"/home/rafael/residuos/spec/support/be_same_file_as.rb",
-		"/home/rafael/residuos/app/views/waste_movements/_info_waste_movement_sheet.html.haml",
-		"/home/rafael/residuos/spec/support/supress_log.rb",
-		"/home/rafael/residuos/app/views/addressers/index.html.haml",
-		"/home/rafael/residuos/app/views/waste_generations/show.html.haml",
-		"/home/rafael/residuos/spec/models/waste_generation_spec.rb",
-		"/home/rafael/residuos/app/models/contact.rb",
-		"/home/rafael/residuos/db/migrate/20150622210303_create_portages.rb",
-		"/home/rafael/residuos/config/initializers/filter_parameter_logging.rb",
-		"/home/rafael/residuos/config/locales/will_paginate.pt-br.yml",
-		"/home/rafael/residuos/app/models/city.rb"
+		"/home/rafael/residuos/log/production.log"
 	],
 	"find":
 	{
-		"height": 23.0
+		"height": 37.0
 	},
 	"find_in_files":
 	{
@@ -372,6 +392,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"localStorageService.",
+			"localStorageService.get(\"localLinhas\")",
+			"searchString",
+			"templates",
+			"search.string",
 			"SchedulesForDaysList",
 			"searchPeriodForDays",
 			"\"descricao\"",
@@ -494,12 +519,7 @@
 			"status.nil?",
 			"update",
 			"formats",
-			"person_type",
-			"WasteMovementSheet.waste_movimented_sheets_by_waste",
-			"waste_movimente_sheets_by_waste",
-			"waste_movimented_sheets_by_waste",
-			"WasteMovementSheet.waste_movimente_sheets_by_waste",
-			"waste_movimente_sheets_by_waste("
+			"person_type"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -518,29 +538,89 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/home/rafael/Downloads/lista-de-processos-13-10-2015 09-55.csv",
+					"file": "www/js/services.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 166644,
+						"buffer_size": 3756,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								933,
+								933
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "www/index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2926,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1552,
+								1552
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 371.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "www/templates/show.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 857,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								204,
+								204
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
@@ -1122,7 +1202,7 @@
 		[
 			[
 				"",
-				"~/sislam2_0/sislam.sublime-project"
+				"~/Downloads/numanistaramos/numismata.sublime-project"
 			],
 			[
 				"sis",

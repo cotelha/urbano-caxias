@@ -6,14 +6,10 @@
     HORARIO: {{nome_horario}}
     <br/>
     TABELA: {{nome_tabela}}
-    <!-- CABEÇALHO TABELA-->
-    <div class="row">
-      <div class="col col-70">Itinerário</div>
-      <div class="col col-20">Horário</div>
-      <div class="col col-10">
-        <i class="fa fa-wheelchair"></i>
+    <!-- CABEÇALHO TABELA -->
+      <div class="row">
+        <div class="col col-100">Itinerários e Horários</div>
       </div>
-    </div>
     <!-- LISTA HORARIOS -->
     <div class="list">
       <a class="item item-icon-left" ng-repeat="itinerary in itineraries" ui-sref="show_itinerary({id: line.id, idItinerary: itinerary.itinerario})">
