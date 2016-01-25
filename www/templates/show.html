@@ -12,7 +12,7 @@
       </div>
     <!-- LISTA HORARIOS -->
     <div class="list">
-      <a class="item item-icon-left" ng-repeat="itinerary in itineraries" ui-sref="show_itinerary({id: line.id, idItinerary: itinerary.itinerario})">
+      <a class="item item-icon-left" ng-repeat="itinerary in itineraries" ui-sref="show_itinerary({id: line.id, idItinerary: itinerary.itinerario, hour: itinerary.hora })">
         <i class="icon ion-ios-location-outline"></i>
         <h2>{{ itinerary.destino }}</h2>
         <p>

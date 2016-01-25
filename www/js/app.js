@@ -60,9 +60,11 @@ Array.prototype.where = Array.prototype.where || function(predicate) {
   return results;
 };
 
-Array.prototype.findBy = function(key, elem) {
+Array.prototype.findBy = function(key, elem, multiple) {
   if (elem["" + key] !== undefined) elem = elem["" + key];
-  return this.where(function(element){ return element["" + key] == elem; })[0];
+  result = this.where(function(element){ return element["" + key] == elem; })
+  if (multiple) return result;
+  return result[0];
 }
 
 Array.prototype.findById = function(elem) {

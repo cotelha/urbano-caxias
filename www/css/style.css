@@ -6,3 +6,9 @@
   right: 10px;
   color: #bbb;
 }
+
+
+ion-item.cached,
+ion-item.cached a.item-content {
+  /*background-color: #D4E3AB;*/
+}
