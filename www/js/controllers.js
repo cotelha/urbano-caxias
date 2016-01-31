@@ -10,11 +10,13 @@ angular.module("FPApp.controllers", [])
 
 .controller("ListCtrl", [
           "$scope", "$sce", "$ionicLoading", "$ionicListDelegate", "$ionicPlatform", "FPSvc2", "linesList",
-  function($scope,   $sce,   $ionicLoading,   $ionicListDelegate,   $ionicPlatform,   FPSvc2,   linesList) {
+  function($scope,  $sce,   $ionicLoading,   $ionicListDelegate,   $ionicPlatform,   FPSvc2,   linesList) {
 
       $ionicLoading.hide();
 
       $scope.linesList = linesList["data"];
+      $scope.periodforday = FPSvc2.searchPeriodForDays();
+      $scope.periodforweek = FPSvc2.searchPeriodForWeek();
 
       $scope.clearString = function() {
           $scope.searchString="";
@@ -22,7 +24,7 @@ angular.module("FPApp.controllers", [])
 
       $scope.isCachedLine = function(line) {
         if (line.cached === undefined) {
-          var cx = FPSvc2.isCachedLine(line, FPSvc2.searchPeriodForWeek(), FPSvc2.searchPeriodForDays());
+          var cx = FPSvc2.isCachedLine(line, $scope.periodforweek, $scope.periodforday);
           line.cached = cx;
         }
         return line.cached;
@@ -33,10 +35,12 @@ angular.module("FPApp.controllers", [])
 
 
 .controller("ShowCtrl", [
-          "$scope", "$state", "$sce", "$ionicPopup", "$ionicListDelegate", "$ionicPlatform", "$filter", "FPSvc2", "line", "itineraries",
-  function($scope,   $state,   $sce,   $ionicPopup,   $ionicListDelegate,   $ionicPlatform,   $filter,   FPSvc2,   line,   itineraries) {
+        "$scope", "$state", "$stateParams", "$sce", "$ionicPopup", "$ionicListDelegate", "$ionicPlatform", "$filter", "FPSvc2", "line", "itineraries",
+  function($scope,   $state,   $stateParams, $sce,   $ionicPopup,   $ionicListDelegate,   $ionicPlatform,   $filter,   FPSvc2,   line,   itineraries) {
       $scope.line = line;
       $scope.itineraries = itineraries["data"];
+      $scope.type_day = $filter('filter')(TypesDaysList, {value: $stateParams.periodforday })[0];
+      $scope.schedule_for_day = $filter('filter')(SchedulesForDaysList, {value: $stateParams.periodforweek })[0];
 
       $scope.showAlert = function() {
         var alertPopup = $ionicPopup.alert({
@@ -53,11 +57,7 @@ angular.module("FPApp.controllers", [])
       if ($scope.itineraries == false) {
         $scope.showAlert();
       }
-
-      $scope.nome_tabela = $filter('filter')(typesDaysList, {value: FPSvc2.searchPeriodForWeek() })[0].text;
-      $scope.nome_horario = $filter('filter')(SchedulesForDaysList, {value: FPSvc2.searchPeriodForDays() })[0].text;
   }
-
 ])
 
 .controller("ShowItineraryCtrl", [
@@ -143,7 +143,7 @@ angular.module("FPApp.controllers", [])
 
           DirectionService.get_polyline_points_by_stations($scope.stations)
             .then(function(polyline_points) {
-              console.log(polyline_points);
+              //console.log(polyline_points);
               $rootScope.map.addPolyline({
                 points: polyline_points,
                 'color' : '#00FF00',

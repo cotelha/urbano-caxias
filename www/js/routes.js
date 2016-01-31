@@ -18,7 +18,7 @@ angular.module("FPApp.routes", [])
       }
     })
     .state('show', {
-      url: '/show/:id',
+      url: '/show/:id/periodforday/:periodforday/periodforweek/:periodforweek',
       templateUrl: 'templates/show.html',
       controller: "ShowCtrl",
       resolve: {
@@ -26,7 +26,7 @@ angular.module("FPApp.routes", [])
           return FPSvc2.getLine($stateParams.id);
         }],
         itineraries: ['FPSvc2', '$stateParams', '$filter', function(FPSvc2, $stateParams, $filter) {
-          return FPSvc2.loadItineraries($stateParams.id, FPSvc2.searchPeriodForDays(), FPSvc2.searchPeriodForWeek());
+          return FPSvc2.loadItineraries($stateParams.id, $stateParams.periodforday, $stateParams.periodforweek);
         }]
       }
     })

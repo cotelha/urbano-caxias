@@ -11,7 +11,7 @@
 
     <!-- Lista dos horários -->
     <ion-list>
-      <ion-item ng-repeat="item in linesList | filter:searchString" ui-sref="show(item)" ng-class="{'cached' : isCachedLine(item)}">
+      <ion-item ng-repeat="item in linesList | filter:searchString" ui-sref="show({id: item.id, periodforday: periodforday, periodforweek: periodforweek })" ng-class="{'cached' : isCachedLine(item)}">
           <h2 ng-bind-html="item.descricao"></h2>
       </ion-item>
     </ion-list>

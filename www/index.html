@@ -18,7 +18,7 @@
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="lib/angular/angular-cache.min.js"></script>
 
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3&sensor=false&language=en"></script>
+    <script type='text/javascript' src='https://maps-api-ssl.google.com/maps/api/js?v=3.3&sensor=false'></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="lib/ng-cordova/ng-cordova.min.js"></script>
@@ -59,23 +59,31 @@
 
         <ion-side-menu side="right">
           <ion-header-bar class="bar-stable">
-            <h1 class="title">Left</h1>
+            <h1 class="title">Opções</h1>
           </ion-header-bar>
           <ion-content>
-            <ion-list>
-              <ion-item nav-clear menu-close ng-click="login()">
-                Login
-              </ion-item>
-              <ion-item nav-clear menu-close href="#/app/search">
-                Search
-              </ion-item>
-              <ion-item nav-clear menu-close href="#/app/browse">
-                Browse
-              </ion-item>
-              <ion-item nav-clear menu-close href="#/app/playlists">
-                Playlists
-              </ion-item>
-            </ion-list>
+            <div class="list">
+                <div class="item item-divider">
+                    Intervalo de Horários
+                </div>
+                <ion-list>
+                    <ion-radio ng-repeat="item2 in SchedulesForDaysList"
+                          name="choiceSchedules" ng-value="item2.value" ng-model="schedule.value" ui-sref="show({id: line.id, periodforday: item.value, periodforweek: schedule_for_day.value })">
+                      {{ item2.text }}
+                    </ion-radio>
+                </ion-list>
+
+                <div class="item item-divider">
+                    Dias da Semana
+                </div>
+                <ion-list>
+                    <ion-radio ng-repeat="item in TypesDaysList"
+                          name="choiceTypesDays" ng-value="item.value" ng-model="type.value" ui-sref="show({id: line.id, periodforday: type_day.value, periodforweek: item.value })">
+                      {{ item.text }}
+                    </ion-radio>
+                </ion-list>
+
+            </div>
           </ion-content>
         </ion-side-menu>
       </ion-side-menus>

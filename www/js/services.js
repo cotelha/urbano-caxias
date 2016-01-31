@@ -23,6 +23,9 @@ angular.module("FPApp.services", ['angular-cache'])
                 });
       }
 
+      $rootScope.SchedulesForDaysList = SchedulesForDaysList;
+      $rootScope.TypesDaysList = TypesDaysList;
+
       this.getLine = function(id) {
         // cria um promise que será retornado assim que
         // o promise anterior retornar
@@ -55,7 +58,7 @@ angular.module("FPApp.services", ['angular-cache'])
         this.loadItineraries(id_line, params_horario, params_tabela)
           .success(function(data) {
             // data é a lista de linhas
-            console.log(hour);
+            //console.log(hour);
             deferred.resolve(data.findBy("itinerario", id_itinerary, true).findBy("hora", hour))
           })
           .error(deferred.reject);
@@ -77,7 +80,6 @@ angular.module("FPApp.services", ['angular-cache'])
       }
 
       this.searchPeriodForDays = function () {
-        return 0;
         var today = new Date().getHours();
         if (today >= 5 && today <= 12) {
           //Das 05:00 às 12:00
@@ -100,7 +102,7 @@ angular.module("FPApp.services", ['angular-cache'])
       this.searchPeriodForWeek = function () {
         var current_date = new Date();
         // BUSCA FERIADO;
-        searchFeriado = $filter('filter')(holidayList, {data: current_date.getDate()+"/"+(current_date.getMonth()+1) });
+        searchFeriado = $filter('filter')(holidayList, {data: current_date.getDate()+"/"+(current_date.getMonth()+1) }, true);
         if (Object.keys(searchFeriado).length!=0) {
           return 6;
         }
@@ -148,7 +150,7 @@ angular.module("FPApp.services", ['angular-cache'])
       };
       var cacheKey = JSON.stringify(request);
       if (polylineCache.get(cacheKey)) {
-        console.log('get from cache!!')
+        //console.log('get from cache!!')
         rsp = polylineCache.get(cacheKey);
         rsp.control = control;
         deferred.resolve(rsp);
@@ -211,10 +213,10 @@ angular.module("FPApp.services", ['angular-cache'])
           this.get_directions(origin, destination, waypoints, i+chunk)
             .then(function(response) {
               polylines = polylines.concat(self.decodePolyline(response.overview_polyline));
-              console.log(polylines);
-              console.log(response.control, all_stations.length);
+              //console.log(polylines);
+              //console.log(response.control, all_stations.length);
               if (response.control >= all_stations.length) {
-                console.log("deferred");
+                //console.log("deferred");
                 deferred.resolve(polylines);
               }
             })
